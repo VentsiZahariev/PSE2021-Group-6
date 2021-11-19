@@ -11,8 +11,9 @@ password = "NNSXS.DTT4HTNBXEQDZ4QYU6SG73Q2OXCERCZ6574RVXI.CQE6IG6FYNJOO2MOFMXZVW
 
 # global variabvle to hold the json data
 json_data = None
+
 # global variable flag
-received_message = False
+message_received = False
 # global variable for the state of the connection
 connected_flag = False
 
@@ -20,9 +21,9 @@ connected_flag = False
 def on_message(client, userdata, message):
     # store the payload in a global variable
     global json_data
-    global received_message
+    global message_received
     json_data = message.payload
-    received_message = True
+    message_received = True
 
 
 def mqtt_connect():
@@ -33,7 +34,7 @@ def mqtt_connect():
             print("Connected OK, Returned code =", rc)
         else:
             print("Bad connection, Returned code = ", rc)
-            connected_flag = True
+            connected_flag = False
 
     client = mqttClient.Client("Python")  # create new instance
     client.username_pw_set(user, password=password)  # set username and password
@@ -49,19 +50,22 @@ def mqtt_connect():
 
     client.subscribe("#")
 
+def run():
+    global message_received
+    try:
+        mqtt_connect()
+        while True:
+            time.sleep(1)
 
-try:
-    mqtt_connect()
-    while True:
-        time.sleep(1)
-        was_closed = False
+            if (message_received):
+                print(json_data)
+                message_received = False
 
-        if (received_message):
-            print(json_data)
-            received_message = False
+    except KeyboardInterrupt:
+        print("exiting")
+        mqttClient.disconnect()
+        mqttClient.loop_stop()
 
 
-except KeyboardInterrupt:
-    print("exiting")
-    #client.disconnect()
-    #client.loop_stop()
+if __name__ == '__main__':
+    run()
