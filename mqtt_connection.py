@@ -1,11 +1,12 @@
 import paho.mqtt.client as mqttClient
 import time
+import ssl
 import json
 #from database import Database as db
 
 # Global variables with credentials for login to mqtt-broker
 broker = "eu1.cloud.thethings.network"  # Broker address/host
-port = 1883  # Port to the broker
+port = 8883  # Port to the broker
 user = "project-software-engineering@ttn"  # Connection username
 password = "NNSXS.DTT4HTNBXEQDZ4QYU6SG73Q2OXCERCZ6574RVXI.CQE6IG6FYNJOO2MOFMXZVWZE4GXTCC2YXNQNFDLQL4APZMWU6ZGA"  # Connection password
 
@@ -37,6 +38,8 @@ def mqtt_connect():
             connected_flag = False
 
     client = mqttClient.Client("Python")  # create new instance
+    client.tls_set()
+    client.tls_insecure_set(True)
     client.username_pw_set(user, password=password)  # set username and password
     client.on_connect = on_connect  # attach function to callback
     client.on_message = on_message  # attach function to callback
