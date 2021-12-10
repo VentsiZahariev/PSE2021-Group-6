@@ -1,0 +1,12 @@
+ERROR 2021-12-10 10:07:15,638 - Error: Access denied for user 'PSEgroup6'@'localhost' (using password: YES)
+ERROR 2021-12-10 10:23:25,949 - ('Connected with result code =', 0)
+ERROR 2021-12-10 10:25:21,025 - ('Connected with result code =', 0)
+ERROR 2021-12-10 10:25:53,477 - lht
+ERROR 2021-12-10 10:26:11,666 - py
+ERROR 2021-12-10 10:27:21,781 - Exiting
+ERROR 2021-12-10 10:27:22,219 - Error: Access denied for user 'PSEgroup6'@'localhost' (using password: YES)
+ERROR 2021-12-10 10:35:17,345 - cant connect to database
+ERROR 2021-12-10 10:41:20,562 - cant connect to database
+ERROR 2021-12-10 11:02:16,686 - cant connect to database
+ERROR 2021-12-10 11:02:16,811 - Connected with result code
+ERROR 2021-12-10 11:02:19,920 - py
