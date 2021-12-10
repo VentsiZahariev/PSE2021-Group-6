@@ -1,39 +1,43 @@
 #!/usr/bin/python3
-# Last edit made: 30-11-2021
-# Version: 0.1
+
+# mqtt_connection.py
+# Last edit made: 10-12-2021
+# Version: 0.2
 # Subject: Code to retrieve data from the things network and store it to the database
 # Author: Tim ter Steege
 # python version used: 3.9
+
 import binascii
 import sys
-
 import mariadb as mariadb
 import paho.mqtt.client as mqtt
 import time
 import base64
 from datetime import datetime
-import data_parser as parser
 
-# TODO: Make connection to the database and store data in the database
-try:
-        host = "127.0.0.1"
-        user = "PSEgroup6"
-        password = "battlefield4"
-        port = 3306
-        db = "weather_log"
-        mydb = mariadb.connect(user=user, password=password, host=host, port=port, database=db)
-except mariadb.Error as err:
-        print(f"Error connecting to MariaDB Platform: {err}")
-        sys.exit(1)
-else:
-        print("You are connected!")
-        myCursor=mydb.cursor()
+import data_parser as parser
+import logger
+
 # global variable to hold temporarily 1 message from the broker, this will be the json line
 json_data = None
 # global variable flag for the status of a newly received message
 message_flag = False
 # global variable flag for connection status
 connected_flag = False
+
+try:
+    host_db = "127.0.0.1"
+    user_db = "PSEgroup6"
+    password_db = "battlefield4"
+    port_db = 3306
+    db = "weather_log"
+    mydb = mariadb.connect(user=user_db, password=password_db, host=host_db, port=port_db, database=db)
+except mariadb.Error as err:
+    logger.log.error_log("cant connect to database")
+    sys.exit(1)
+else:
+    logger.log.debug_log("connected to database")
+    myCursor=mydb.cursor()
 
 # Global variables with credentials for login to mqtt-broker
 host = "eu1.cloud.thethings.network"  # Broker address/host
@@ -73,10 +77,10 @@ def on_connect(client, userdata, flags, rc):
     """
     global connected_flag
     if rc == 0:
+        logger.log.debug_log("Connected with result code")
         connected_flag = True
-        print("Connected with result code =", rc)
     else:
-        print("Not connected with result code =", rc)
+        logger.log.debug_log("Not connected with result code")
         connected_flag = False
 
 
@@ -96,7 +100,7 @@ def mqtt_connect():
     client.on_connect = on_connect  # attach function to callback
     client.on_message = on_message  # attach function to callback
     client.loop()
-    client.connect(host=host, port=port)  # connect to broker
+    client.connect(host=host, port=port, keepalive=60)  # connect to broker
 
     client.loop_start()  # start the loop
     while not connected_flag:  # Wait for connection
@@ -147,29 +151,6 @@ def decode_payload(payload):
         return None
 
 
-def print_message(device_data, device, date, metadata):
-    """
-    This function will print the message to the console in the format:
-    [current date and time] device location
-        pressure, light, temperature, battery voltage (for lht)
-
-    :param device_data: The decoded data in a tuple [0] = pressure, [1] = light, [2] = temperature,
-            [3] = battery voltage (for dragino lht65)
-    :param device: device id in a tuple [0] = device type (py or lht), [1] = location
-    :param date: current date and time when the message is retrieved
-    """
-    time_stamp = date.strftime("[%d-%m-%Y %H:%M:%S]")
-    print(time_stamp, device[0], device[1])
-    if device[0] == "py":
-        print("\tpressure:", device_data[1], ", light:", device_data[2], ", temperature:", device_data[3])
-    elif device[0] == "lht":
-        print("\tpressure:", device_data[1], ", light:", device_data[2], ", temperature:", device_data[3], ", battery:",
-              device_data[4])
-    else:
-        print("invalid device")
-    print("\tid:", metadata[0], ", eui:", metadata[1], ", rssi:", metadata[2], ", channel rssi:", metadata[3])
-
-
 def run():
     """
     This function runs the whole code
@@ -181,7 +162,6 @@ def run():
     try:
         while True:
             time.sleep(1)
-
             if message_flag:
                 payload, device_id = parser.data_parser.parse_datavalues(json_data)
                 data_values = decode_payload(payload)  # [0] = device name, [1] = pressure, [2] = light, [3] = temperature, ([4] = batv)
@@ -190,7 +170,6 @@ def run():
                     split_device_id = device_id.split("-")
                     date_time = datetime.now()
                     metadata = parser.data_parser.parse_metadata(json_data)  # [0] = gateway id, [1] = gateway eui, [2] = rssi, [3] = crssi
-                    print_message(data_values, split_device_id, date_time, metadata)
                     try:
                         if split_device_id[0]=="py":
                             statement = "INSERT INTO pysense (log_time,location,temperature,pressure,light) VALUES (?,?,?,?,?)"
@@ -207,15 +186,14 @@ def run():
                             values2 = (myCursor.lastrowid, metadata[0], metadata[1], metadata[2])
                             myCursor.execute(statement2, values2)
                     except mariadb.Error as e:
-                        print(f"Error: {e}")
+                        logger.log.error_log("not connected to database")  # logging to file
                     mydb.commit()
-                    # TODO: store data in the database
                 else:
-                    print("Device is not supported, device message:\n\t", json_data)
+                    logger.log.debug_log("Device is not supported.") #logging to file
 
                 message_flag = False
     except KeyboardInterrupt:
-        print("exiting")
+        logger.log.debug_log("Exiting") #logging to file
         client1.disconnect()
         client1.loop_stop()
         mydb.close()

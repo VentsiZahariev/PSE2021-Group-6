@@ -1,5 +1,8 @@
-# Last edit made: 02-12-2021
-# Version: 0.1
+#!/usr/bin/python3
+
+# data_parser.py
+# Last edit made: 10-12-2021
+# Version: 0.2
 # Subject: This file will parse the json string retrieved from the things network
 # Author: Tim ter Steege
 # python version used: 3.9
