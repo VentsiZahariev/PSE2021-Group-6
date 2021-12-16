@@ -37,17 +37,20 @@ db_username = "PSEgroup6"
 db_password = "battlefield4"
 db_database = "weather_log"
 
+# Global variable for the filename for logging messages
+log_filename = "mqtt_log.out"
+
 try:
     mydb = mariadb.connect(user=db_username, password=db_password, host=db_host, port=db_port, database=db_database)
 except mariadb.Error as err:
     # logging critical error to output file to let the user now the connection to the database cant be established
-    log_message.critical_log(("Can not connect to database: " + db_database))
+    log_message.critical_log(("Can not connect to database: " + db_database), log_filename)
     log_message.critical_log("message: " + err)
-    log_message.info_log("Exit system with reason: No database connection. ")
+    log_message.info_log("Exit system with reason: No database connection. ", log_filename)
     sys.exit(1)
 else:
     # logging info to output file to let the user now the connection to the database has been made
-    log_message.info_log(("connected to database: " + db_database))
+    log_message.info_log(("connected to database: " + db_database), log_filename)
     myCursor = mydb.cursor()
 
 
@@ -81,11 +84,11 @@ def on_connect(client, userdata, flags, rc):
     global connected_flag
     if rc == 0:
         # logging info to output file to let the user now the connection to the MQTT broker has been made
-        log_message.info_log(message=("Connected to the MQTT broker: " + mqtt_host))
+        log_message.info_log(message=("Connected to the MQTT broker: " + mqtt_host), filename=log_filename)
         connected_flag = True
     else:
         # logging critical error to output file to let the user now the connection to the MQTT broker cant be established
-        log_message.info_log(message=("A missing connection to the MQTT broker: "+ mqtt_host))
+        log_message.info_log(message=("A missing connection to the MQTT broker: "+ mqtt_host), filename=log_filename)
         connected_flag = False
 
 
@@ -137,8 +140,7 @@ def run():
                     date_time = datetime.now()
                     metadata = parser.parse_metadata(json_data, device_id)  # [0] = gateway id, [1] = gateway eui, [2] = rssi, [3] = crssi
                     try:
-                        if split_device_id[0]=="py":
-                            print(device_id[0])
+                        if split_device_id[0] == "py":
                             #data_values, time, metadata
                             statement = "INSERT INTO pysense (log_time,location,temperature,pressure,light) VALUES (?,?,?,?,?)"
                             values = (date_time, split_device_id[1], data_values[3], data_values[1], data_values[2])
@@ -147,7 +149,6 @@ def run():
                             values2 = ( myCursor.lastrowid, metadata[0], metadata[1], metadata[2])
                             myCursor.execute(statement2, values2)
                         elif split_device_id[0] == "lht":
-                            print(device_id[0])
                             statement = "INSERT INTO dragino(log_time,location,temperature,humidity,light) VALUES (?,?,?,?,?)"
                             values = (date_time,  split_device_id[1], data_values[3], data_values[1], data_values[2])
                             myCursor.execute(statement, values)
@@ -156,22 +157,22 @@ def run():
                             myCursor.execute(statement2, values2)
                     except mariadb.Error as e:
                         # logging a critical error to output file to let the user know a database connection has been lost
-                        log_message.warning_log("A missing connection to the database: " + db_database)
+                        log_message.warning_log(("A missing connection to the database: " + db_database), log_filename)
                     mydb.commit()
                 else:
                     # logging a warning reason to output file to let the user know a unvalid message has been transported over the things network
-                    log_message.warning_log("Payload field consist of unvalid bytes, device: " + device_id)
+                    log_message.warning_log(("Payload field consist of unvalid bytes, device: " + device_id), log_filename)
 
                 message_flag = False
     except KeyboardInterrupt:
         # logging exit info to output file to let the user now when system has been shutdown and all the connections are closed
-        log_message.info_log("Exit system with reason: Keyboard Interruption.")
+        log_message.info_log("Exit system with reason: Keyboard Interruption.", log_filename)
         client1.disconnect()
         client1.loop_stop()
-        log_message.info_log("MQTT connection closed...")
+        log_message.info_log("MQTT connection closed...", log_filename)
         mydb.close()
-        log_message.info_log("Database connection closed...")
-        log_message.info_log("System closed.")
+        log_message.info_log("Database connection closed...", log_filename)
+        log_message.info_log("System closed.", log_filename)
 
 
 if __name__ == '__main__':

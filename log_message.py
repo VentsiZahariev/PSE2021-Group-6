@@ -10,10 +10,10 @@
 import logging
 
 
-def info_log(message):
+def info_log(message, filename):
     try:
         log_format = "%(levelname)s: [%(asctime)s] - %(message)s"
-        logging.basicConfig(filename="logfile.out",
+        logging.basicConfig(filename=filename,
                             filemode="a",
                             format=log_format,
                             level=logging.INFO)
@@ -24,10 +24,10 @@ def info_log(message):
         print("Error: ", e)
 
 
-def warning_log(message):
+def warning_log(message, filename):
     try:
         log_format = "%(levelname)s: [%(asctime)s] - %(message)s"
-        logging.basicConfig(filename="logfile.out",
+        logging.basicConfig(filename=filename,
                             filemode="a",
                             format=log_format,
                             level=logging.WARNING)
@@ -38,10 +38,10 @@ def warning_log(message):
         print("Error: ", e)
 
 
-def error_log(message):
+def error_log(message, filename):
     try:
         log_format = "%(levelname)s: [%(asctime)s] - %(message)s"
-        logging.basicConfig(filename="logfile.out",
+        logging.basicConfig(filename=filename,
                             filemode="a",
                             format=log_format,
                             level=logging.ERROR)
@@ -52,10 +52,10 @@ def error_log(message):
         print("Error: ", e)
 
 
-def critical_log(message):
+def critical_log(message, filename):
     try:
         log_format = "%(levelname)s: [%(asctime)s] - %(message)s"
-        logging.basicConfig(filename="logfile.out",
+        logging.basicConfig(filename=filename,
                             filemode="a",
                             format=log_format,
                             level=logging.CRITICAL)

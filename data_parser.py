@@ -12,6 +12,8 @@ import base64
 import binascii
 import log_message
 
+# Global variable for the filename for logging messages
+log_filename = "mqtt_log.out"
 
 def parse_eui(json, device):
     try:
@@ -20,7 +22,7 @@ def parse_eui(json, device):
         return gateway_eui
     except KeyError:
         # log to file a field is not in string
-        log_message.warning_log("Gateway eui is not in string, device_id: " + device)
+        log_message.warning_log(("Gateway eui is not in string, device_id: " + device), log_filename)
         return None
 
 
@@ -31,7 +33,7 @@ def parse_gatewayid(json, device):
         return gateway_id
     except KeyError:
         # log to file a field is not in string
-        log_message.warning_log("Gateway id is not in string, device_id: " + device)
+        log_message.warning_log(("Gateway id is not in string, device_id: " + device), log_filename)
         return None
 
 
@@ -42,7 +44,7 @@ def parse_rssi(json, device):
         return gateway_rssi
     except KeyError:
         # log to file a field is not in string
-        log_message.warning_log("Gateway rssi is not in string, device_id: " + device)
+        log_message.warning_log(("Gateway rssi is not in string, device_id: " + device), log_filename)
         return None
 
 
@@ -53,7 +55,7 @@ def parse_crssi(json, device):
         return gateway_crssi
     except KeyError:
         # log to file a field is not in string
-        log_message.warning_log("Gateway channel rssi is not in string, device_id: " + device)
+        log_message.warning_log(("Gateway channel rssi is not in string, device_id: " + device), log_filename)
         return None
 
 
@@ -64,7 +66,7 @@ def parse_payload(json, device):
         return payload
     except KeyError:
         # log to file a field is not in string
-        log_message.warning_log("Payload field is not in string, device_id: " + device)
+        log_message.warning_log(("Payload field is not in string, device_id: " + device), log_filename)
         return None
 
 
@@ -74,7 +76,7 @@ def parse_deviceid(json):
         return device_id
     except KeyError:
         # log to file a field is not in string
-        log_message.warning_log("Device id is not in string, with json: " + json)
+        log_message.warning_log(("Device id is not in string, with json: " + json), log_filename)
         return None
 
 
@@ -149,9 +151,9 @@ def decode_payload(payload, device):
             return "lht", pressure, light, temperature, batv
 
         else:
-            log_message.warning_log("Payload field does not contain the correct byte representation, device_id: " + device)
+            log_message.warning_log(("Payload field does not contain the correct byte representation, device_id: " + device), log_filename)
             return None
 
     except binascii.Error:
-        log_message.warning_log("Payload field does not contain the correct byte representation, device_id: " + device)
+        log_message.warning_log(("Payload field does not contain the correct byte representation, device_id: " + device), log_filename)
         return None
