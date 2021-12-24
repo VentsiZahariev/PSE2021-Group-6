@@ -1,0 +1,11 @@
+INFO: [2021-12-16 17:40:43,661] - Connected to the MQTT broker: eu1.cloud.thethings.network
+INFO: [2021-12-16 17:44:20,766] - Connected to the MQTT broker: eu1.cloud.thethings.network
+INFO: [2021-12-16 17:47:08,224] - Connected to the MQTT broker: eu1.cloud.thethings.network
+INFO: [2021-12-16 17:53:24,019] - Connected to the MQTT broker: eu1.cloud.thethings.network
+WARNING: [2021-12-16 17:54:01,463] - Gateway eui is not in string, device_id: py-saxion
+WARNING: [2021-12-16 18:11:09,274] - Gateway eui is not in string, device_id: py-saxion
+WARNING: [2021-12-16 18:18:00,699] - Gateway eui is not in string, device_id: py-saxion
+INFO: [2021-12-16 18:20:12,912] - Exit system with reason: Keyboard Interruption.
+INFO: [2021-12-16 18:20:12,921] - MQTT connection closed...
+INFO: [2021-12-16 18:20:12,921] - Database connection closed...
+INFO: [2021-12-16 18:20:12,921] - System closed.

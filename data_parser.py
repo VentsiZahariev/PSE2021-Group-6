@@ -76,7 +76,28 @@ def parse_deviceid(json):
         return device_id
     except KeyError:
         # log to file a field is not in string
-        log_message.warning_log(("Device id is not in string, with json: " + json), log_filename)
+        log_message.warning_log(("Device id is not in string, with json:"), log_filename)
+        return None
+
+def parse_latitude(json_str, device):
+    try:
+        data = json.loads(json_str)
+        latitude = data['uplink_message']['rx_metadata'][0]['location']['latitude']
+        return latitude
+    except KeyError:
+        # log to file a field is not in string
+        log_message.warning_log(("Device id is not in string, with json: " + device), log_filename)
+        return None
+
+
+def parse_longitude(json_str, device):
+    try:
+        data = json.loads(json_str)
+        longitude = data['uplink_message']['rx_metadata'][0]['location']['longitude']
+        return longitude
+    except KeyError:
+        # log to file a field is not in string
+        log_message.warning_log(("Device id is not in string, with json: " + device), log_filename)
         return None
 
 
