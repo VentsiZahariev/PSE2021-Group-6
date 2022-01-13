@@ -1,16 +1,23 @@
 #!/usr/bin/python3
 
 # logger.py
-# Last edit made: 10-12-2021
-# Version: 0.1
-# Subject: Logs error messages to a output file to catch crashes and failures
+# Last edit made: 13-01-2022
+# Version: 0.2
+# Description: Logs error messages to a output file to catch crashes and failures
 # Author: Tim ter Steege
 # python version used: 3.9
 
+# Import required python libraries
 import logging
+
+# global variable to hold the name of the output file
 filename = "mqtt_log.out"
 
 def info_log(message):
+    """
+    logs a message to an output file with info tag
+    form of message:  INFO: [datetime] - message
+    """
     try:
         log_format = "%(levelname)s: [%(asctime)s] - %(message)s"
         logging.basicConfig(filename=filename,
@@ -25,6 +32,10 @@ def info_log(message):
 
 
 def warning_log(message):
+    """
+    logs a message to an output file with warning tag
+    form of message:  WARNING: [datetime] - message
+    """
     try:
         log_format = "%(levelname)s: [%(asctime)s] - %(message)s"
         logging.basicConfig(filename=filename,
@@ -39,6 +50,10 @@ def warning_log(message):
 
 
 def error_log(message):
+    """
+    logs a message to an output file with error tag
+    form of message:  ERROR: [datetime] - message
+    """
     try:
         log_format = "%(levelname)s: [%(asctime)s] - %(message)s"
         logging.basicConfig(filename=filename,
@@ -53,6 +68,10 @@ def error_log(message):
 
 
 def critical_log(message):
+    """
+    logs a message to an output file with critical tag
+    form of message:  CRITICAL: [datetime] - message
+    """
     try:
         log_format = "%(levelname)s: [%(asctime)s] - %(message)s"
         logging.basicConfig(filename=filename,

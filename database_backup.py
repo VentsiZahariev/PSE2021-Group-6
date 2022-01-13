@@ -1,7 +1,14 @@
 #!/usr/bin/python
 
-# Import required python libraries
+# database_backup.py
+# Last edit made: 13-01-2022
+# Version: 0.1
+# Description: This code will make a copy for thee whole database and store it on the local device
+# Author: Tim ter Steege
+# python version used: 3.9
 
+
+# Import required python libraries
 import os
 import time
 from datetime import datetime
@@ -9,7 +16,6 @@ import pipes
 import glob
 import shutil
 import mariadb as mariadb
-
 import log_message
 
 # MySQL database details to which backup to be done. Make sure below user having enough privileges to take databases backup.
@@ -43,7 +49,7 @@ for item in folders:
     except:
         pass
 
-
+# create a new folder to store the file with the database backup
 log_message.info_log("Creating new backup folder")
 if not os.path.exists(backup_path_today):
     os.makedirs(backup_path_today)

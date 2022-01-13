@@ -1,19 +1,18 @@
 #!/usr/bin/python3
 
 # mqtt_connection.py
-# Last edit made: 10-12-2021
-# Version: 0.2
-# Subject: Code to retrieve data from the things network and store it to the database
+# Last edit made: 13-01-2022
+# Version: 0.3
+# Description: Code to retrieve data from the things network and store it to the database
 # Author: Tim ter Steege
 # python version used: 3.9
 
-
+# Import required python libraries
 import paho.mqtt.client as mqtt
 import time
 from datetime import datetime
 import sys
 import mariadb as mariadb
-
 import data_parser as parser
 import log_message
 

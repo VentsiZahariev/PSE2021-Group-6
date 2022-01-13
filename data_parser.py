@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 
 # data_parser.py
-# Last edit made: 10-12-2021
+# Last edit made: 13-01-2022
 # Version: 0.2
-# Subject: This file will parse the json string retrieved from the things network
+# Description: This file will parse the json string retrieved from the things network
 # Author: Tim ter Steege
 # python version used: 3.9
 
+# Import required python libraries
 import json
 import base64
 import binascii
@@ -16,6 +17,12 @@ import log_message
 log_filename = "mqtt_log.out"
 
 def parse_eui(json, device):
+    """
+    parse the eui/gateway id value from the json string
+
+    :return: returns the eui/gateway id or None if value does not exists in the json string
+    """
+
     try:
         gateway_eui = json['uplink_message']['rx_metadata'][0]['gateway_ids']['eui']
 
@@ -27,6 +34,11 @@ def parse_eui(json, device):
 
 
 def parse_gatewayid(json, device):
+    """
+    parse the gateway id value from the json string
+
+    :return: returns the gateway id or None if value does not exists in the json string
+    """
     try:
         gateway_id = json['uplink_message']['rx_metadata'][0]['gateway_ids']['gateway_id']
 
@@ -38,6 +50,11 @@ def parse_gatewayid(json, device):
 
 
 def parse_rssi(json, device):
+    """
+    parse the rssi value from the json string
+
+    :return: returns the rssi or None if value does not exists in the json string
+    """
     try:
         gateway_rssi = json['uplink_message']['rx_metadata'][0]['rssi']
 
@@ -49,6 +66,11 @@ def parse_rssi(json, device):
 
 
 def parse_crssi(json, device):
+    """
+    parse the crssi value from the json string
+
+    :return: returns the crssi or None if value does not exists in the json string
+    """
     try:
         gateway_crssi = json['uplink_message']['rx_metadata'][0]['channel_rssi']
 
@@ -60,6 +82,11 @@ def parse_crssi(json, device):
 
 
 def parse_payload(json, device):
+    """
+    parse the encoded payload field that contains the values for temperature, light and pressure/humidity value from the json string
+
+    :return: returns the encooded payload or None if value does not exists in the json string
+    """
     try:
         payload = json['uplink_message']['frm_payload']
 
@@ -71,6 +98,11 @@ def parse_payload(json, device):
 
 
 def parse_deviceid(json):
+    """
+    parse the device id value from the json string
+
+    :return: returns the device id or None if value does not exists in the json string
+    """
     try:
         device_id = json['end_device_ids']['device_id']
         return device_id
@@ -80,6 +112,11 @@ def parse_deviceid(json):
         return None
 
 def parse_latitude(json_str, device):
+    """
+    parse the latitude value from the json string
+
+    :return: returns the latitude or None if value does not exists in the json string
+    """
     try:
         data = json.loads(json_str)
         latitude = data['uplink_message']['rx_metadata'][0]['location']['latitude']
@@ -91,6 +128,11 @@ def parse_latitude(json_str, device):
 
 
 def parse_longitude(json_str, device):
+    """
+    parse the longitude value from the json string
+
+    :return: returns the longitude or None if value does not exists in the json string
+    """
     try:
         data = json.loads(json_str)
         longitude = data['uplink_message']['rx_metadata'][0]['location']['longitude']
@@ -152,7 +194,7 @@ def decode_payload(payload, device):
 
         if len(raw) == 4:
             pressure = raw[0] / 2 + 950  # air pressure in mbar
-            light = raw[1]  # ambient light in lux???
+            light = raw[1]  # ambient light in lux
             temperature = ((raw[2] - 20) * 10 + raw[3]) / 10  # temperature in degree Celcius
 
             return "pycom", pressure, light, temperature
