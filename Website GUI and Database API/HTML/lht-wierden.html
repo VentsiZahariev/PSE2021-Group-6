@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PSE Group 6 Data</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="custom.css">
+    <script src="https://kit.fontawesome.com/ab531e491f.js" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+  </head>
+
+  <body>
+
+    <!-- navbar -->
+    <nav class="navbar is-primary is-fixed-top">
+      <div class="navbar-brand">
+  
+          <div class="navbar-item">
+              <span class="icon is-size-5">
+                  <i class="fas fa-cloud-sun"></i>
+              </span>
+          </div>
+  
+          <div class="navbar-item">
+              <h1 class="is-size-4 has-text-weight-bold">
+                  Gorilla Weather
+              </h1>
+          </div>
+  
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarResise">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+          </a>
+  
+      </div>
+  
+      <div class="navbar-menu" id="navbarResise">
+          <div class="navbar-start has-text-weight-bold">
+              <a href="index.php" class="navbar-item">
+                  Graphs
+              </a>
+  
+              <a href="py-saxion-home.html" class="navbar-item">
+                  Sensors
+              </a>
+          </div>
+  
+          <div class="navbar-end">
+              <div class="navbar-item">
+                  <div class="field is-grouped">
+                      <p class="control">
+                          <a href="about.html" class="button has-text-weight-bold is-light is-rounded">
+                              <span class="icon">
+                                  <i class="far fa-address-card" aria-hidden="true"></i>
+                              </span>
+                              <span>
+                                  About
+                              </span>
+                          </a>
+                      </p>
+                      <p class="control">
+                          <a href="https://github.com/VentsiZahariev/PSE2021-Group-6" class="button is-info is-rounded">
+                              <span class="icon">
+                                  <i class="fab fa-github" aria-hidden="true"></i>
+                              </span>
+                              <span>
+                                  Github
+                              </span>
+                          </a>
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  
+  </nav>
+
+    <section class="section">
+        <div class="container">
+          
+          <div class="columns pb-6 is-vcentered">
+
+            <div class="column is-3">
+              <div class="dropdown is-fullwidth">
+                <div class="dropdown-trigger">
+                  <button class="button is-fullwidth" aria-haspopup="true" aria-controls="dropdown-menu3">
+                    <span>Sensor</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+                  <div class="dropdown-content">
+                    <div class="container dropdown-item">
+                        <a href="py-saxion-home.html" class="button is-rounded is-primary is-fullwidth">Enschede - Saxion</a>
+                    </div>
+                    <div class="container dropdown-item">
+                        <a href="py-wierden.html" class="button is-rounded is-primary is-fullwidth">Wierden - Slot - PY</a>
+                    </div>
+                    <div class="container dropdown-item">
+                        <a href="lht-gronau.html" class="button is-rounded is-primary is-fullwidth">Gronau - Tangelder</a>
+                    </div>
+                    <div class="container dropdown-item">
+                        <a class="button is-rounded is-info is-fullwidth">Wierden - Slot - LHT</a>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <hr class="is-rounded">
+            </div>
+
+          </div>
+
+          <div class="columns is-vcentered">
+
+            <div class="column is-3 pr-6">
+                <h1 class="title">Wierden - Slot</h1>
+                <h2 class="subtitle">Sensor Info</h2>
+                <p>
+                  <strong>Device ID:</strong> lht-wierden <br>
+                  <strong>Device Address:</strong> 260BCC18 <br>
+                  <strong>Gateway ID:</strong> slot-wierden <br>
+                  <strong>RSSI:</strong> -70 <br>
+                  <strong>SNR:</strong> 8 <br>
+                  <strong>Bandwidth:</strong> 125000 <br>
+                  <strong>Frequency:</strong> 868100000 <br>
+                  <strong>Data Airtime:</strong> 0.061696s <br>
+                  <strong>Brand ID:</strong> dragino <br>
+                  <strong>Firmware Version:</strong> 1.8 <br>
+                  <strong>Altitude:</strong> 10
+                </p>
+            </div>
+
+            <div class="column">
+              <div class="box p-4">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d73157.42851729703!2d6.551469753157097!3d52.367813020221895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x747eeee6223e355!2zNTLCsDIyJzA4LjEiTiA2wrAzNicxMC40IkU!5e0!3m2!1sen!2snl!4v1639675729859!5m2!1sen!2snl" width="840" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+              </div>
+            </div>
+            
+          </div>
+
+        </div>
+    </section>
+    
+  </body>
+
+</html>
